@@ -88,7 +88,9 @@ export default function CardNav({
   useLayoutEffect(() => {
     const tl = createTimeline();
     tlRef.current = tl;
-    return () => tl?.kill();
+    return () => {
+      tl?.kill();
+    };
   }, [createTimeline]);
 
   const toggleMenu = () => {
