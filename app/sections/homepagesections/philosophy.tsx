@@ -57,8 +57,8 @@ export default function PhilosophySection() {
 
   return (
     <section ref={containerRef} className="relative z-10 bg-[#050505] overflow-hidden shadow-[0_-50px_100px_rgba(0,0,0,0.8)]">
-      <div 
-        ref={horizontalRef} 
+      <div
+        ref={horizontalRef}
         className="flex h-screen items-center px-[10vw] gap-[20vw]"
         style={{ width: 'fit-content' }}
       >

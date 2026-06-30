@@ -1,6 +1,8 @@
 'use client';
 
 import { FC, useRef, useState, useEffect, MutableRefObject } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+
 import { mat4, quat, vec2, vec3 } from 'gl-matrix';
 import './InfiniteMenu.css';
 
@@ -1068,6 +1070,8 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [], scale = 1.0 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null) as MutableRefObject<HTMLCanvasElement | null>;
   const [activeItem, setActiveItem] = useState<MenuItem | null>(null);
   const [isMoving, setIsMoving] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -1114,8 +1118,61 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [], scale = 1.0 }) => {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+    <div 
+      className="relative w-full h-full group overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <canvas id="infinite-grid-menu-canvas" ref={canvasRef} />
+
+      <AnimatePresence>
+        {!isMoving && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ 
+              opacity: isHovered ? 1 : 0, 
+              y: isHovered ? 0 : 20 
+            }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute bottom-32 left-1/2 -translate-x-1/2 pointer-events-none z-20"
+          >
+
+            <div className="flex items-center gap-4 px-8 py-4 rounded-full bg-infinitica-black/60 backdrop-blur-xl border border-infinitica-lavender/20 shadow-[0_0_50px_rgba(139,92,246,0.2)]">
+              <div className="flex gap-1.5">
+                <motion.div 
+                  animate={{ x: [-4, 4, -4] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                  className="w-5 h-5 text-infinitica-lavender"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M15 18l-6-6 6-6" />
+                  </svg>
+                </motion.div>
+                <div className="w-5 h-5 text-infinitica-lavender">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0" />
+                    <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0" />
+                    <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0" />
+                    <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+                  </svg>
+                </div>
+                <motion.div 
+                  animate={{ x: [4, -4, 4] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                  className="w-5 h-5 text-infinitica-lavender"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 18l6-6-6-6" />
+                  </svg>
+                </motion.div>
+              </div>
+              <span className="text-infinitica-glow font-bold tracking-[0.2em] text-xs uppercase whitespace-nowrap">
+                Drag to explore
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {activeItem && (
         <>

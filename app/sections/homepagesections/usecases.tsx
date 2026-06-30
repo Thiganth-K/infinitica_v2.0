@@ -148,12 +148,12 @@ export default function UseCasesSection() {
           Explore how Infinitica's neural ecosystem is transforming industry standards across talent, security, and creativity.
         </p>
       </div>
-      
+
       <div className="w-full">
         <div className={styles.scrollStackScroller} ref={scrollerRef}>
           <div className={styles.scrollStackInner}>
             {useCases.map((uc, index) => (
-              <div 
+              <div
                 key={index}
                 className={styles.scrollStackCard}
                 style={{ backgroundColor: uc.color, color: uc.textColor }}
@@ -173,13 +173,13 @@ export default function UseCasesSection() {
                     </p>
                   </div>
 
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
                     whileInView={{ opacity: 0.3, scale: 1, rotate: 0 }}
-                    animate={{ 
+                    animate={{
                       y: [0, -15, 0],
                     }}
-                    transition={{ 
+                    transition={{
                       y: {
                         duration: 4,
                         repeat: Infinity,
